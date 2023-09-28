@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SearchContext } from '../App';
@@ -29,11 +30,14 @@ export default function Home() {
 	urlDB.searchParams.append('search', searchValue);
 
 	useEffect(() => {
-		fetch(urlDB)
-			.then((res) => res.json())
-			.then((pizzas) => {
-				setNrPizza(pizzas.length);
-			});
+		// fetch(urlDB)
+		// 	.then((res) => res.json())
+		// 	.then((pizzas) => {
+		// 		setNrPizza(pizzas.length);
+		// 	});
+		axios.get(urlDB).then((res) => {
+			setNrPizza(res.data.length);
+		});
 		// eslint-disable-next-line
 	}, [filterID, sortValue, searchValue]);
 
@@ -42,12 +46,17 @@ export default function Home() {
 		urlDB.searchParams.append('limit', 4);
 		setIsLoading(true);
 
-		fetch(urlDB)
-			.then((res) => res.json())
-			.then((pizzas) => {
-				setPizzas(pizzas);
-				setIsLoading(false);
-			});
+		// fetch(urlDB)
+		// 	.then((res) => res.json())
+		// 	.then((pizzas) => {
+		// 		setPizzas(pizzas);
+		// 		setIsLoading(false);
+		// 	});
+
+		axios.get(urlDB).then((res) => {
+			setPizzas(res.data);
+			setIsLoading(false);
+		});
 		window.scrollTo(0, 0);
 
 		// eslint-disable-next-line
