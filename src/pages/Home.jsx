@@ -38,6 +38,7 @@ export default function Home() {
 		axios.get(urlDB).then((res) => {
 			setNrPizza(res.data.length);
 		});
+
 		// eslint-disable-next-line
 	}, [filterID, sortValue, searchValue]);
 
