@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveCategori } from '../redux/slices/filterSlice';
+import { setActiveSort } from '../redux/slices/filterSlice';
 
 export default function Sort() {
 	const sortCatergories = [
@@ -20,7 +20,7 @@ export default function Sort() {
 	// const sortNameSelect = sortCatergories[activeCategori].name;
 
 	function onClickListItem(categori) {
-		dispatch(setActiveCategori(categori));
+		dispatch(setActiveSort(categori));
 		setOpen(false);
 	}
 	return (

@@ -1,15 +1,15 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg';
-import { initialState, setActiveCategori, setActiveFilter } from '../redux/slices/filterSlice';
+import { initialState, setActiveCategory, setActiveSort } from '../redux/slices/filterSlice';
 import Search from './Search';
 
 export default function Headers() {
 	const dispatch = useDispatch();
 
 	const onClickReset = () => {
-		dispatch(setActiveFilter(initialState.categoryId));
-		dispatch(setActiveCategori(initialState.sort));
+		dispatch(setActiveCategory(initialState.categoryId));
+		dispatch(setActiveSort(initialState.sort));
 	};
 	return (
 		<div className="header">
