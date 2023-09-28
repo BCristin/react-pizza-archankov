@@ -1,12 +1,20 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg';
+import { initialState, setActiveCategori, setActiveFilter } from '../redux/slices/filterSlice';
 import Search from './Search';
 
 export default function Headers() {
+	const dispatch = useDispatch();
+
+	const onClickReset = () => {
+		dispatch(setActiveFilter(initialState.categoryId));
+		dispatch(setActiveCategori(initialState.sort));
+	};
 	return (
 		<div className="header">
 			<div className="container">
-				<Link to="/">
+				<Link to="/" onClick={onClickReset}>
 					<div className="header__logo">
 						<img width="38" src={logoSvg} alt="Pizza logo" />
 						<div>

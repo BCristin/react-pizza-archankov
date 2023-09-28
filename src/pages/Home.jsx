@@ -1,23 +1,27 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SearchContext } from '../App';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
+import { setNrPages } from '../redux/slices/filterSlice';
 
 export default function Home() {
-	const { categoryId: filterID, sort: sortValue } = useSelector((state) => state.filter);
+	const {
+		categoryId: filterID,
+		sort: sortValue,
+		currentPage,
+	} = useSelector((state) => state.filter);
+	const dispatch = useDispatch();
 
 	const { searchValue } = useContext(SearchContext);
 
 	const [pizzas, setPizzas] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [currentPage, setCurrentPage] = useState(1);
 
-	const [nrPizza, setNrPizza] = useState(0);
 	const urlDB = new URL('https://6512c399b8c6ce52b3962a52.mockapi.io/pizzas');
 
 	if (filterID !== 0) {
@@ -36,7 +40,7 @@ export default function Home() {
 		// 		setNrPizza(pizzas.length);
 		// 	});
 		axios.get(urlDB).then((res) => {
-			setNrPizza(res.data.length);
+			dispatch(setNrPages(res.data.length));
 		});
 
 		// eslint-disable-next-line
@@ -76,7 +80,7 @@ export default function Home() {
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">{isLoading ? sketetonRender : pizzasListRender}</div>
-			<Pagination handlePageClick={setCurrentPage} pageCount={Math.ceil(nrPizza / 4)} />
+			<Pagination />
 		</div>
 	);
 }
