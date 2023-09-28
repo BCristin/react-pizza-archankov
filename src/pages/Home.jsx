@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { SearchContext } from '../App';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
@@ -7,22 +8,20 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 
 export default function Home() {
+	const { categoryId: filterID, sort: sortValue } = useSelector((state) => state.filter);
+
 	const { searchValue } = useContext(SearchContext);
 
 	const [pizzas, setPizzas] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [categoriValue, setCategoriValue] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [sortValue, setSortValue] = useState({
-		name: 'популярности asc',
-		sortProperty: 'rating',
-		desc: 'asc',
-	});
+
 	const [nrPizza, setNrPizza] = useState(0);
 	const urlDB = new URL('https://6512c399b8c6ce52b3962a52.mockapi.io/pizzas');
 
-	if (categoriValue !== 0) {
-		urlDB.searchParams.append('category', categoriValue); // urlDB = `${urlDB}?category=${sortValue}`;
+	if (filterID !== 0) {
+		urlDB.searchParams.append('category', filterID);
+		// urlDB = `${urlDB}?category=${sortValue}`;
 	}
 
 	urlDB.searchParams.append('sortBy', sortValue.sortProperty);
@@ -34,8 +33,9 @@ export default function Home() {
 			.then((res) => res.json())
 			.then((pizzas) => {
 				setNrPizza(pizzas.length);
-			}); // eslint-disable-next-line
-	}, [categoriValue, sortValue, searchValue]);
+			});
+		// eslint-disable-next-line
+	}, [filterID, sortValue, searchValue]);
 
 	useEffect(() => {
 		urlDB.searchParams.append('page', currentPage);
@@ -51,8 +51,7 @@ export default function Home() {
 		window.scrollTo(0, 0);
 
 		// eslint-disable-next-line
-	}, [categoriValue, sortValue, searchValue, currentPage]);
-	// console.log(categoriValue, sortValue.name, sortValue.desc, isLoading, pizzas, urlDB);
+	}, [filterID, sortValue, searchValue, currentPage]);
 
 	const sketetonRender = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	const pizzasListRender = pizzas
@@ -62,8 +61,8 @@ export default function Home() {
 	return (
 		<div className="container">
 			<div className="content__top">
-				<Categories activeIndex={categoriValue} setActiveIndex={setCategoriValue} />
-				<Sort activeCategori={sortValue} setActiveCategori={setSortValue} />
+				<Categories />
+				<Sort />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">{isLoading ? sketetonRender : pizzasListRender}</div>

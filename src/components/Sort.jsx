@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveCategori } from '../redux/slices/filterSlice';
 
-export default function Sort({ activeCategori, setActiveCategori }) {
+export default function Sort() {
 	const sortCatergories = [
 		{ name: 'популярности asc', sortProperty: 'rating', desc: 'asc' },
 		{ name: 'популярности desc', sortProperty: 'rating', desc: 'desc' },
@@ -9,12 +11,16 @@ export default function Sort({ activeCategori, setActiveCategori }) {
 		{ name: 'алфавиту asc', sortProperty: 'title', desc: 'asc' },
 		{ name: 'алфавиту desc', sortProperty: 'title', desc: 'desc' },
 	];
+
+	const activeCategori = useSelector((state) => state.filter.sort);
+	const dispatch = useDispatch();
+
 	// const [activeCategori, setActiveCategori] = useState(0);
 	const [open, setOpen] = useState(false);
 	// const sortNameSelect = sortCatergories[activeCategori].name;
 
 	function onClickListItem(categori) {
-		setActiveCategori(categori);
+		dispatch(setActiveCategori(categori));
 		setOpen(false);
 	}
 	return (
