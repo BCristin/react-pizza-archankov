@@ -1,10 +1,6 @@
-import { useState } from 'react';
-
-export default function Button() {
-	const [pizzaCount, setPizzaCount] = useState(0);
+export default function Button({ onClickAdd, count }) {
 	const onClickAddButton = () => {
-		setPizzaCount(pizzaCount + 1);
-		console.log('render ', pizzaCount);
+		onClickAdd();
 	};
 	return (
 		<button onClick={onClickAddButton} className="button button--outline button--add">
@@ -20,7 +16,7 @@ export default function Button() {
 				/>
 			</svg>
 			<span>Добавить</span>
-			<i>{pizzaCount}</i>
+			{count > 0 && <i>{count}</i>}
 		</button>
 	);
 }

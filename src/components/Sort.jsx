@@ -11,6 +11,7 @@ export const sortCatergories = [
 ];
 export default function Sort() {
 	const activeCategori = useSelector((state) => state.filter.sortValue);
+
 	const dispatch = useDispatch();
 	const sortRef = useRef();
 
@@ -22,7 +23,6 @@ export default function Sort() {
 
 	useEffect(() => {
 		const handeleClickOutside = (e) => {
-			console.log('sads');
 			if (!e.composedPath().includes(sortRef.current)) {
 				setOpen(false);
 			}
