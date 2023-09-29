@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setNrPizzas } from '../../redux/slices/filterSlice';
+import { setNrPizzas } from '../redux/slices/filterSlice';
 
 export function fetchPizzas(urlDB, setPizzas, setIsLoading, currentPage, dispatch) {
 	axios.get(urlDB).then((res) => dispatch(setNrPizzas(res.data.length)));

@@ -8,8 +8,8 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { sortCatergories } from '../components/Sort';
-import { fetchPizzas } from '../components/server/pizzas';
 import { setFilters, setQueryParameters } from '../redux/slices/filterSlice';
+import { fetchPizzas } from '../server/pizzas';
 export default function Home() {
 	const { categoryId, sortValue, currentPage, queryParameters } = useSelector(
 		(state) => state.filter,
