@@ -4,11 +4,12 @@ export const initialState = {
 	categoryId: 0,
 	currentPage: 1,
 	nrPizza: 0,
-	sort: {
+	sortValue: {
 		name: 'популярности asc',
 		sortProperty: 'rating',
-		desc: 'asc',
+		order: 'asc',
 	},
+	queryParameters: false,
 };
 
 export const filterSlice = createSlice({
@@ -20,17 +21,32 @@ export const filterSlice = createSlice({
 			state.currentPage = initialState.currentPage;
 		},
 		setActiveSort: (state, action) => {
-			state.sort = action.payload;
+			state.sortValue = action.payload;
 		},
 		setCurrentPage: (state, action) => {
 			state.currentPage = action.payload;
 		},
-		setNrPages: (state, action) => {
+		setNrPizzas: (state, action) => {
 			state.nrPizza = action.payload;
+		},
+		setQueryParameters: (state, action) => {
+			state.queryParameters = action.payload;
+		},
+		setFilters: (state, action) => {
+			state.categoryId = +action.payload.categoryId;
+			state.currentPage = +action.payload.currentPage;
+			state.sortValue = action.payload.sort;
 		},
 	},
 });
 
-export const { setActiveCategory, setActiveSort, setCurrentPage, setNrPages } = filterSlice.actions;
+export const {
+	setActiveCategory,
+	setActiveSort,
+	setCurrentPage,
+	setNrPizzas,
+	setQueryParameters,
+	setFilters,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;

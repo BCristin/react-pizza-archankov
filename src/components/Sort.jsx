@@ -1,23 +1,19 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveSort } from '../redux/slices/filterSlice';
-
+export const sortCatergories = [
+	{ name: 'популярности asc', sortProperty: 'rating', order: 'asc' },
+	{ name: 'популярности desc', sortProperty: 'rating', order: 'desc' },
+	{ name: 'цене asc', sortProperty: 'price', order: 'asc' },
+	{ name: 'цене desc', sortProperty: 'price', order: 'desc' },
+	{ name: 'алфавиту asc', sortProperty: 'title', order: 'asc' },
+	{ name: 'алфавиту desc', sortProperty: 'title', order: 'desc' },
+];
 export default function Sort() {
-	const sortCatergories = [
-		{ name: 'популярности asc', sortProperty: 'rating', desc: 'asc' },
-		{ name: 'популярности desc', sortProperty: 'rating', desc: 'desc' },
-		{ name: 'цене asc', sortProperty: 'price', desc: 'asc' },
-		{ name: 'цене desc', sortProperty: 'price', desc: 'desc' },
-		{ name: 'алфавиту asc', sortProperty: 'title', desc: 'asc' },
-		{ name: 'алфавиту desc', sortProperty: 'title', desc: 'desc' },
-	];
-
-	const activeCategori = useSelector((state) => state.filter.sort);
+	const activeCategori = useSelector((state) => state.filter.sortValue);
 	const dispatch = useDispatch();
 
-	// const [activeCategori, setActiveCategori] = useState(0);
 	const [open, setOpen] = useState(false);
-	// const sortNameSelect = sortCatergories[activeCategori].name;
 
 	function onClickListItem(categori) {
 		dispatch(setActiveSort(categori));

@@ -1,71 +1,71 @@
-import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import qs from 'qs';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../App';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-import Sort from '../components/Sort';
-import { setNrPages } from '../redux/slices/filterSlice';
-
+import Sort, { sortCatergories } from '../components/Sort';
+import { fetchPizzas } from '../components/server/pizzas';
+import { setFilters, setQueryParameters } from '../redux/slices/filterSlice';
 export default function Home() {
-	const {
-		categoryId: filterID,
-		sort: sortValue,
-		currentPage,
-	} = useSelector((state) => state.filter);
+	const { categoryId, sortValue, currentPage, queryParameters } = useSelector(
+		(state) => state.filter,
+	);
 	const dispatch = useDispatch();
 
 	const { searchValue } = useContext(SearchContext);
-
 	const [pizzas, setPizzas] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-
+	const navigate = useNavigate();
+	const isSearch = useRef(false);
+	// const queryParameters = useRef(false);
 	const urlDB = new URL('https://6512c399b8c6ce52b3962a52.mockapi.io/pizzas');
 
-	if (filterID !== 0) {
-		urlDB.searchParams.append('category', filterID);
+	if (categoryId !== 0) {
+		urlDB.searchParams.append('category', categoryId);
 		// urlDB = `${urlDB}?category=${sortValue}`;
 	}
-
 	urlDB.searchParams.append('sortBy', sortValue.sortProperty);
-	urlDB.searchParams.append('order', sortValue.desc);
+	urlDB.searchParams.append('order', sortValue.order);
 	urlDB.searchParams.append('search', searchValue);
 
 	useEffect(() => {
-		// fetch(urlDB)
-		// 	.then((res) => res.json())
-		// 	.then((pizzas) => {
-		// 		setNrPizza(pizzas.length);
-		// 	});
-		axios.get(urlDB).then((res) => {
-			dispatch(setNrPages(res.data.length));
-		});
-
-		// eslint-disable-next-line
-	}, [filterID, sortValue, searchValue]);
+		if (window.location.search) {
+			const params = qs.parse(window.location.search.substring(1));
+			const sort = sortCatergories.find(
+				(obj) => obj.sortProperty === params.sortProperty && obj.order === params.order,
+			);
+			dispatch(setFilters({ ...params, sort }));
+			isSearch.current = true; // spun ca exista search
+		} // eslint-disable-next-line
+	}, []);
 
 	useEffect(() => {
-		urlDB.searchParams.append('page', currentPage);
-		urlDB.searchParams.append('limit', 4);
 		setIsLoading(true);
+		if (!isSearch.current) {
+			fetchPizzas(urlDB, setPizzas, setIsLoading, currentPage, dispatch);
+		}
+		isSearch.current = false;
+		window.scrollTo(0, 0); // eslint-disable-next-line
+	}, [categoryId, sortValue, searchValue, currentPage]);
 
-		// fetch(urlDB)
-		// 	.then((res) => res.json())
-		// 	.then((pizzas) => {
-		// 		setPizzas(pizzas);
-		// 		setIsLoading(false);
-		// 	});
-
-		axios.get(urlDB).then((res) => {
-			setPizzas(res.data);
-			setIsLoading(false);
-		});
-		window.scrollTo(0, 0);
+	useEffect(() => {
+		if (queryParameters) {
+			const queryString = qs.stringify({
+				sortProperty: sortValue.sortProperty,
+				order: sortValue.order,
+				categoryId,
+				currentPage,
+			});
+			navigate(`?${queryString}`);
+		}
+		dispatch(setQueryParameters(true));
 
 		// eslint-disable-next-line
-	}, [filterID, sortValue, searchValue, currentPage]);
+	}, [categoryId, sortValue, currentPage]);
 
 	const sketetonRender = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	const pizzasListRender = pizzas
