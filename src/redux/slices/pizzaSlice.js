@@ -39,7 +39,7 @@ const pizzaSlice = createSlice({
 			state.nrPizza = initialState.nrPizza;
 		},
 		[fetchPizzas.fulfilled]: (state, action) => {
-			console.log(action, 'fulfilled');
+			// console.log(action, 'fulfilled');
 			state.items = action.payload.pizzas;
 			state.nrPizza = action.payload.nrPizza;
 			state.status = 'success';
