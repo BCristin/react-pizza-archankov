@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveSort } from '../redux/slices/filterSlice';
+
 export const sortCatergories = [
 	{ name: 'популярности asc', sortProperty: 'rating', order: 'asc' },
 	{ name: 'популярности desc', sortProperty: 'rating', order: 'desc' },
@@ -9,13 +10,14 @@ export const sortCatergories = [
 	{ name: 'алфавиту asc', sortProperty: 'title', order: 'asc' },
 	{ name: 'алфавиту desc', sortProperty: 'title', order: 'desc' },
 ];
-export default function Sort() {
-	const activeCategori = useSelector((state) => state.filter.sortValue);
 
+export default function Sort() {
+	const activeSort = useSelector((state) => state.filter.sortValue);
 	const dispatch = useDispatch();
-	const sortRef = useRef();
 
 	const [open, setOpen] = useState(false);
+	const sortRef = useRef();
+
 	function onClickListItem(categori) {
 		dispatch(setActiveSort(categori));
 		setOpen(false);
@@ -31,6 +33,7 @@ export default function Sort() {
 
 		return () => document.body.removeEventListener('click', handeleClickOutside);
 	}, []);
+
 	return (
 		<div ref={sortRef} className="sort">
 			<div className="sort__label">
@@ -46,9 +49,8 @@ export default function Sort() {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setOpen(!open)}>{activeCategori.name}</span>
+				<span onClick={() => setOpen(!open)}>{activeSort.name}</span>
 			</div>
-
 			{open && (
 				<div className="sort__popup">
 					<ul>
@@ -56,7 +58,7 @@ export default function Sort() {
 							<li
 								key={categori.name}
 								onClick={() => onClickListItem(categori)}
-								className={activeCategori.name === categori.name ? 'active' : ''}>
+								className={activeSort.name === categori.name ? 'active' : ''}>
 								{categori.name}
 							</li>
 						))}

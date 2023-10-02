@@ -22,6 +22,7 @@ export default function Search() {
 	const onClickClear = () => {
 		dispatch(setSearchValue(''));
 		inputRef.current.focus();
+		setSearchValueLocale('');
 	};
 
 	return (

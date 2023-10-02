@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import logoSvg from '../assets/img/pizza-logo.svg';
+
 import { cartSelector } from '../redux/slices/cartSlice';
 import {
 	initialState,
@@ -8,20 +8,21 @@ import {
 	setActiveSort,
 	setQueryParameters,
 } from '../redux/slices/filterSlice';
+
+import logoSvg from '../assets/img/pizza-logo.svg';
 import Search from './Search';
 
 export default function Headers() {
-	const { items, totalPrice } = useSelector(cartSelector);
+	const { totalCount, totalPrice } = useSelector(cartSelector);
 	const dispatch = useDispatch();
 	const location = useLocation();
-
-	const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 
 	const onClickReset = () => {
 		dispatch(setActiveCategory(initialState.categoryId));
 		dispatch(setActiveSort(initialState.sortValue));
 		dispatch(setQueryParameters(false));
 	};
+
 	return (
 		<div className="header">
 			<div className="container">

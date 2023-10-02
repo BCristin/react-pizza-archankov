@@ -2,6 +2,7 @@ import qs from 'qs';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
@@ -14,18 +15,15 @@ export default function Home() {
 	const { categoryId, sortValue, currentPage, queryParameters, searchValue } = useSelector(
 		(state) => state.filter,
 	);
-	const { items: pizzas, status } = useSelector((state) => state.pizza);
+	const { pizzas, status } = useSelector((state) => state.pizza);
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 	const isSearch = useRef(false);
 	// const queryParameters = useRef(false);
-	const urlDB = new URL('https://6512c399b8c6ce52b3962a52.mockapi.io/pizzas');
 
-	if (categoryId !== 0) {
-		urlDB.searchParams.append('category', categoryId);
-		// urlDB = `${urlDB}?category=${sortValue}`;
-	}
+	const urlDB = new URL('https://6512c399b8c6ce52b3962a52.mockapi.io/pizzas');
+	if (categoryId !== 0) urlDB.searchParams.append('category', categoryId);
 	urlDB.searchParams.append('sortBy', sortValue.sortProperty);
 	urlDB.searchParams.append('order', sortValue.order);
 	urlDB.searchParams.append('search', searchValue);
@@ -34,7 +32,8 @@ export default function Home() {
 		if (window.location.search) {
 			const params = qs.parse(window.location.search.substring(1));
 			const sort = sortCatergories.find(
-				(obj) => obj.sortProperty === params.sortProperty && obj.order === params.order,
+				(category) =>
+					category.sortProperty === params.sortProperty && category.order === params.order,
 			);
 			dispatch(setFilters({ ...params, sort }));
 			isSearch.current = true; // spun ca exista search
@@ -42,10 +41,8 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		// setIsLoading(true);
-		if (!isSearch.current) {
-			dispatch(fetchPizzas({ urlDB, currentPage }));
-		}
+		if (!isSearch.current) dispatch(fetchPizzas({ urlDB, currentPage }));
+
 		isSearch.current = false;
 		window.scrollTo(0, 0); // eslint-disable-next-line
 	}, [categoryId, sortValue, searchValue, currentPage]);
@@ -87,7 +84,6 @@ export default function Home() {
 					{status === 'loading' ? sketetonRender : pizzasListRender}
 				</div>
 			)}
-
 			<Pagination />
 		</div>
 	);

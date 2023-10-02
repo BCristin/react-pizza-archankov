@@ -1,9 +1,9 @@
 export default function Button({ onClickAdd, count }) {
-	const onClickAddButton = () => {
-		onClickAdd();
-	};
+	// const onClickAddButton = () => {
+	// 	onClickAdd();
+	// };
 	return (
-		<button onClick={onClickAddButton} className="button button--outline button--add">
+		<button onClick={() => onClickAdd()} className="button button--outline button--add">
 			<svg
 				width="12"
 				height="12"

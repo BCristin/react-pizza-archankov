@@ -4,11 +4,7 @@ export const initialState = {
 	categoryId: 0,
 	currentPage: 1,
 	searchValue: '',
-	sortValue: {
-		name: 'популярности asc',
-		sortProperty: 'rating',
-		order: 'asc',
-	},
+	sortValue: { name: 'популярности asc', sortProperty: 'rating', order: 'asc' },
 	queryParameters: false,
 };
 

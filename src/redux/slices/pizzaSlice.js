@@ -19,7 +19,7 @@ export const fetchPizzas = createAsyncThunk(
 	},
 );
 const initialState = {
-	items: [],
+	pizzas: [],
 	nrPizza: 0,
 	status: 'loading', // loading | success | error
 };
@@ -29,27 +29,28 @@ const pizzaSlice = createSlice({
 	initialState,
 	reducers: {
 		setPizzas(state, action) {
-			state.items = action.payload;
+			state.pizzas = action.payload;
 		},
 	},
-	extraReducers: {
-		[fetchPizzas.pending]: (state) => {
-			state.status = 'loading';
-			state.items = initialState.items;
-			state.nrPizza = initialState.nrPizza;
-		},
-		[fetchPizzas.fulfilled]: (state, action) => {
-			// console.log(action, 'fulfilled');
-			state.items = action.payload.pizzas;
-			state.nrPizza = action.payload.nrPizza;
-			state.status = 'success';
-		},
-		[fetchPizzas.rejected]: (state, action) => {
-			console.log(action, 'rejected');
-			state.status = 'error';
-			state.items = initialState.items;
-			state.nrPizza = initialState.nrPizza;
-		},
+	extraReducers: (builder) => {
+		builder
+			.addCase(fetchPizzas.pending, (state) => {
+				state.status = 'loading';
+				state.pizzas = initialState.pizzas;
+				state.nrPizza = initialState.nrPizza;
+			})
+			.addCase(fetchPizzas.fulfilled, (state, action) => {
+				// console.log(action, 'fulfilled');
+				state.pizzas = action.payload.pizzas;
+				state.nrPizza = action.payload.nrPizza;
+				state.status = 'success';
+			})
+			.addCase(fetchPizzas.rejected, (state, action) => {
+				console.log(action, 'rejected');
+				state.status = 'error';
+				state.pizzas = initialState.pizzas;
+				state.nrPizza = initialState.nrPizza;
+			});
 	},
 });
 

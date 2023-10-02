@@ -17,6 +17,7 @@ export default function Pagination() {
 			nextLabel=" >"
 			onPageChange={(e) => dispatch(setCurrentPage(e.selected + 1))}
 			pageRangeDisplayed={4}
+			marginPagesDisplayed={2}
 			pageCount={nrPages > 1 ? nrPages : 0}
 			previousLabel="< "
 			forcePage={currentPage - 1}
