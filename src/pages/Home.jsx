@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../App';
@@ -9,16 +9,17 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { sortCatergories } from '../components/Sort';
 import { setFilters, setQueryParameters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../server/pizzas';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
+
 export default function Home() {
 	const { categoryId, sortValue, currentPage, queryParameters } = useSelector(
 		(state) => state.filter,
 	);
+	const { items: pizzas, status } = useSelector((state) => state.pizza);
 	const dispatch = useDispatch();
 
 	const { searchValue } = useContext(SearchContext);
-	const [pizzas, setPizzas] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
+
 	const navigate = useNavigate();
 	const isSearch = useRef(false);
 	// const queryParameters = useRef(false);
@@ -44,9 +45,9 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		setIsLoading(true);
+		// setIsLoading(true);
 		if (!isSearch.current) {
-			fetchPizzas(urlDB, setPizzas, setIsLoading, currentPage, dispatch);
+			dispatch(fetchPizzas({ urlDB, currentPage }));
 		}
 		isSearch.current = false;
 		window.scrollTo(0, 0); // eslint-disable-next-line
@@ -79,7 +80,17 @@ export default function Home() {
 				<Sort />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
-			<div className="content__items">{isLoading ? sketetonRender : pizzasListRender}</div>
+			{status === 'error' ? (
+				<div class="content__error-info">
+					<h2>Произошла ошибка 😕</h2>
+					<p>К сожалению, не удалось получить питсы. Попробуйте повторить попытку позже.</p>
+				</div>
+			) : (
+				<div className="content__items">
+					{status === 'loading' ? sketetonRender : pizzasListRender}
+				</div>
+			)}
+
 			<Pagination />
 		</div>
 	);
