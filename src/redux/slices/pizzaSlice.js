@@ -3,13 +3,18 @@ import axios from 'axios';
 
 export const fetchPizzas = createAsyncThunk(
 	'pizza/fetchPizzasStatus',
-	async ({ urlDB, currentPage }) => {
+	async ({ urlDB, currentPage }, thunkAPI) => {
 		const { data } = await axios.get(urlDB);
 		const nrPizza = data.length;
 
 		urlDB.searchParams.append('page', currentPage);
 		urlDB.searchParams.append('limit', 4);
 		const { data: pizzas } = await axios.get(urlDB);
+
+		if (nrPizza === 0) {
+			return thunkAPI.rejectWithValue('pizza == 0');
+			//baga cand eroare rezultatul in payload
+		}
 		return { nrPizza, pizzas };
 	},
 );

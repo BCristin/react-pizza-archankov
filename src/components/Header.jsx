@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg';
+import { cartSelector } from '../redux/slices/cartSlice';
 import {
 	initialState,
 	setActiveCategory,
@@ -10,7 +11,7 @@ import {
 import Search from './Search';
 
 export default function Headers() {
-	const { items, totalPrice } = useSelector((state) => state.cart);
+	const { items, totalPrice } = useSelector(cartSelector);
 	const dispatch = useDispatch();
 
 	const totalCount = items.reduce((sum, item) => sum + item.count, 0);

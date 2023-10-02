@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const initialState = {
 	categoryId: 0,
 	currentPage: 1,
-	// nrPizza: 0,
+	searchValue: '',
 	sortValue: {
 		name: 'популярности asc',
 		sortProperty: 'rating',
@@ -26,9 +26,9 @@ export const filterSlice = createSlice({
 		setCurrentPage: (state, action) => {
 			state.currentPage = action.payload;
 		},
-		// setNrPizzas: (state, action) => {
-		// 	state.nrPizza = action.payload;
-		// },
+		setSearchValue: (state, action) => {
+			state.searchValue = action.payload;
+		},
 		setQueryParameters: (state, action) => {
 			state.queryParameters = action.payload;
 		},
@@ -44,7 +44,7 @@ export const {
 	setActiveCategory,
 	setActiveSort,
 	setCurrentPage,
-	// setNrPizzas,
+	setSearchValue,
 	setQueryParameters,
 	setFilters,
 } = filterSlice.actions;

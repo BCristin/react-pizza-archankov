@@ -1,8 +1,7 @@
 import qs from 'qs';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { SearchContext } from '../App';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
@@ -12,13 +11,11 @@ import { setFilters, setQueryParameters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
 export default function Home() {
-	const { categoryId, sortValue, currentPage, queryParameters } = useSelector(
+	const { categoryId, sortValue, currentPage, queryParameters, searchValue } = useSelector(
 		(state) => state.filter,
 	);
 	const { items: pizzas, status } = useSelector((state) => state.pizza);
 	const dispatch = useDispatch();
-
-	const { searchValue } = useContext(SearchContext);
 
 	const navigate = useNavigate();
 	const isSearch = useRef(false);
@@ -81,7 +78,7 @@ export default function Home() {
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			{status === 'error' ? (
-				<div class="content__error-info">
+				<div className="content__error-info">
 					<h2>Произошла ошибка 😕</h2>
 					<p>К сожалению, не удалось получить питсы. Попробуйте повторить попытку позже.</p>
 				</div>
