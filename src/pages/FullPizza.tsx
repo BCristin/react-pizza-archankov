@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Button from '../components/Button';
 
-export default function FullPizza() {
-	const [pizza, setPizza] = useState();
+const FullPizza: React.FC = () => {
+	const [pizza, setPizza] = useState<{
+		imageUrl: string;
+		title: string;
+		price: number;
+	}>();
 	const { idPizza } = useParams();
 	const navigate = useNavigate();
 
@@ -24,18 +27,19 @@ export default function FullPizza() {
 	}, []);
 
 	if (!pizza) {
-		return 'loading...';
+		return <>'loading...'</>;
 	}
 
 	return (
-		<div>
+		<div className="container">
 			<img className="pizza-block__image" src={pizza.imageUrl} alt="Pizza" />
 			<h4 className="pizza-block__title">{pizza.title}</h4>
 
 			<div className="pizza-block__bottom">
 				<div className="pizza-block__price">от {pizza.price} ₽</div>
-				<Button />
 			</div>
 		</div>
 	);
-}
+};
+
+export default FullPizza;
