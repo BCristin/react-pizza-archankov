@@ -30,15 +30,15 @@ export default function Sort() {
 	}
 
 	useEffect(() => {
-		const handeleClickOutside = (e: any) => {
-			if (!e.composedPath().includes(sortRef.current)) {
+		const handeleClickOutside = (e: MouseEvent) => {
+			const _e = e as MouseEvent & { composedPath(): Node[] };
+			if (sortRef.current && !_e.composedPath().includes(sortRef.current)) {
 				setOpen(false);
 			}
 		};
 		document.body.addEventListener('click', handeleClickOutside);
 
-		return () =>
-			document.body.removeEventListener('click', handeleClickOutside);
+		return () => document.body.removeEventListener('click', handeleClickOutside);
 	}, []);
 
 	return (

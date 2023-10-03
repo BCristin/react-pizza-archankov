@@ -1,4 +1,7 @@
-type ButtonProps = { onClickAdd: any; count: number };
+type ButtonProps = {
+	onClickAdd: () => void;
+	count: number;
+};
 const Button: React.FC<ButtonProps> = ({ onClickAdd, count }) => {
 	return (
 		<button onClick={() => onClickAdd()} className="button button--outline button--add">

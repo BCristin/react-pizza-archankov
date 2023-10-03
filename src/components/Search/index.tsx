@@ -14,7 +14,7 @@ const Search: React.FC = () => {
 		}, 250),
 		[],
 	);
-	const onChangeInput = (e: any) => {
+	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValueLocale(e.target.value);
 		updateSearchValue(e.target.value);
 	};
