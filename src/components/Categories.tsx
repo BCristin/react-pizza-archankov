@@ -1,10 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCategory } from '../redux/slices/filterSlice';
 
-const defaultCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+const defaultCategories: string[] = [
+	'Все',
+	'Мясные',
+	'Вегетарианская',
+	'Гриль',
+	'Острые',
+	'Закрытые',
+];
 
 export default function Categories() {
-	const activeIndex = useSelector((state) => state.filter.categoryId);
+	const activeIndex = useSelector((state: any) => state.filter.categoryId);
 	const dispatch = useDispatch();
 
 	return (

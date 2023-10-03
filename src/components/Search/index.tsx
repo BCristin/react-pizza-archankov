@@ -3,25 +3,25 @@ import { useCallback, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/slices/filterSlice';
 import styles from './Search.module.scss';
-
-export default function Search() {
+const Search: React.FC = () => {
 	const dispatch = useDispatch();
 	const [searchValueLocale, setSearchValueLocale] = useState('');
 
-	const inputRef = useRef(); // eslint-disable-next-line
+	const inputRef = useRef<HTMLInputElement>(null); // eslint-disable-next-line
 	const updateSearchValue = useCallback(
-		debounce((e) => {
+		debounce((e: string) => {
 			dispatch(setSearchValue(e));
 		}, 250),
 		[],
 	);
-	const onChangeInput = (e) => {
+	const onChangeInput = (e: any) => {
 		setSearchValueLocale(e.target.value);
 		updateSearchValue(e.target.value);
 	};
 	const onClickClear = () => {
 		dispatch(setSearchValue(''));
-		inputRef.current.focus();
+		// if (inputRef.current) inputRef.current.focus();
+		inputRef.current?.focus();
 		setSearchValueLocale('');
 	};
 
@@ -57,4 +57,5 @@ export default function Search() {
 			)}
 		</div>
 	);
-}
+};
+export default Search;

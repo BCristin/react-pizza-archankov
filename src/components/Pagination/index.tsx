@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../redux/slices/filterSlice';
 import styles from './Pagination.module.scss';
 
-export default function Pagination() {
-	const { currentPage } = useSelector((state) => state.filter);
-	const { nrPizza } = useSelector((state) => state.pizza);
+const Pagination = () => {
+	const { currentPage } = useSelector((state: any) => state.filter);
+	const { nrPizza } = useSelector((state: any) => state.pizza);
 
 	const nrPages = Math.ceil(nrPizza / 4);
 	const dispatch = useDispatch();
@@ -24,4 +24,5 @@ export default function Pagination() {
 			renderOnZeroPageCount={null}
 		/>
 	);
-}
+};
+export default Pagination;

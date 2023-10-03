@@ -6,7 +6,15 @@ import Button from '../Button';
 
 const typeNames = ['тонкое', 'традиционное'];
 
-export default function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+type IPizzaBlockProps = {
+	id: string;
+	title: string;
+	price: number;
+	imageUrl: string;
+	sizes: number[];
+	types: number[];
+};
+const PizzaBlock: React.FC<IPizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
 	const dispatch = useDispatch();
 	const cartItem = useSelector(cartSelectorByID(id));
 
@@ -62,4 +70,5 @@ export default function PizzaBlock({ id, title, price, imageUrl, sizes, types })
 			</div>
 		</div>
 	);
-}
+};
+export default PizzaBlock;

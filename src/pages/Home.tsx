@@ -11,11 +11,11 @@ import Sort, { sortCatergories } from '../components/Sort';
 import { setFilters, setQueryParameters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
-export default function Home() {
+const Home: React.FC = () => {
 	const { categoryId, sortValue, currentPage, queryParameters, searchValue } = useSelector(
-		(state) => state.filter,
+		(state: any) => state.filter,
 	);
-	const { pizzas, status } = useSelector((state) => state.pizza);
+	const { pizzas, status } = useSelector((state: any) => state.pizza);
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
@@ -41,7 +41,11 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		if (!isSearch.current) dispatch(fetchPizzas({ urlDB, currentPage }));
+		if (!isSearch.current)
+			dispatch(
+				//@ts-ignore
+				fetchPizzas({ urlDB, currentPage }),
+			);
 
 		isSearch.current = false;
 		window.scrollTo(0, 0); // eslint-disable-next-line
@@ -65,7 +69,7 @@ export default function Home() {
 	const sketetonRender = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	const pizzasListRender = pizzas
 		// .filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase()))
-		.map((pizza) => <PizzaBlock {...pizza} key={pizza.title} />);
+		.map((pizza: any) => <PizzaBlock {...pizza} key={pizza.title} />);
 
 	return (
 		<div className="container">
@@ -87,4 +91,5 @@ export default function Home() {
 			<Pagination />
 		</div>
 	);
-}
+};
+export default Home;

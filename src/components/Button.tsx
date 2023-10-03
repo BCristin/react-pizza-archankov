@@ -1,7 +1,5 @@
-export default function Button({ onClickAdd, count }) {
-	// const onClickAddButton = () => {
-	// 	onClickAdd();
-	// };
+type ButtonProps = { onClickAdd: any; count: number };
+const Button: React.FC<ButtonProps> = ({ onClickAdd, count }) => {
 	return (
 		<button onClick={() => onClickAdd()} className="button button--outline button--add">
 			<svg
@@ -19,4 +17,5 @@ export default function Button({ onClickAdd, count }) {
 			{count > 0 && <i>{count}</i>}
 		</button>
 	);
-}
+};
+export default Button;

@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveSort } from '../redux/slices/filterSlice';
 
-export const sortCatergories = [
+type SortItem = {
+	name: string;
+	sortProperty: string;
+	order: 'asc' | 'desc';
+};
+
+export const sortCatergories: SortItem[] = [
 	{ name: 'популярности asc', sortProperty: 'rating', order: 'asc' },
 	{ name: 'популярности desc', sortProperty: 'rating', order: 'desc' },
 	{ name: 'цене asc', sortProperty: 'price', order: 'asc' },
@@ -12,26 +18,27 @@ export const sortCatergories = [
 ];
 
 export default function Sort() {
-	const activeSort = useSelector((state) => state.filter.sortValue);
+	const activeSort = useSelector((state: any) => state.filter.sortValue);
 	const dispatch = useDispatch();
 
 	const [open, setOpen] = useState(false);
-	const sortRef = useRef();
+	const sortRef = useRef<HTMLDivElement>(null);
 
-	function onClickListItem(categori) {
+	function onClickListItem(categori: SortItem) {
 		dispatch(setActiveSort(categori));
 		setOpen(false);
 	}
 
 	useEffect(() => {
-		const handeleClickOutside = (e) => {
+		const handeleClickOutside = (e: any) => {
 			if (!e.composedPath().includes(sortRef.current)) {
 				setOpen(false);
 			}
 		};
 		document.body.addEventListener('click', handeleClickOutside);
 
-		return () => document.body.removeEventListener('click', handeleClickOutside);
+		return () =>
+			document.body.removeEventListener('click', handeleClickOutside);
 	}, []);
 
 	return (
