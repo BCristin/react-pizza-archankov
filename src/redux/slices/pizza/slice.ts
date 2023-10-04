@@ -1,24 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { IPizzaSliceState, Status, TPizza } from '../../@types/types';
-
-export const fetchPizzas = createAsyncThunk(
-	'pizza/fetchPizzasStatus',
-	async ({ urlDB, currentPage }: { urlDB: URL; currentPage: number }, thunkAPI) => {
-		const { data } = await axios.get<TPizza[]>(urlDB.toString());
-		const nrPizza = data.length;
-
-		urlDB.searchParams.append('page', currentPage.toString());
-		urlDB.searchParams.append('limit', '4');
-		const { data: pizzas } = await axios.get<TPizza[]>(urlDB.toString());
-
-		if (nrPizza === 0) {
-			return thunkAPI.rejectWithValue('pizza == 0');
-			//baga cand eroare rezultatul in payload
-		}
-		return { nrPizza, pizzas };
-	},
-);
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { fetchPizzas } from './asyncActions';
+import { IPizzaSliceState, Status, TPizza } from './types';
 
 const initialState: IPizzaSliceState = {
 	pizzas: [],

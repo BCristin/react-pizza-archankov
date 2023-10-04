@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveCategory } from '../redux/slices/filterSlice';
+import { setActiveCategory } from '../redux/slices/filter/slice';
 import { RootState } from '../redux/store';
 
 const defaultCategories: string[] = [
@@ -14,8 +14,6 @@ const defaultCategories: string[] = [
 const Categories: FC = memo(() => {
 	const activeIndex = useSelector((state: RootState) => state.filter.categoryId);
 	const dispatch = useDispatch();
-
-	console.log('Categories', activeIndex);
 
 	return (
 		<div className="categories">

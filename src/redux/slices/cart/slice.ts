@@ -1,12 +1,19 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ICartSliceState, TCartItem } from '../../@types/types';
-import { RootState } from '../store';
-import { findItemForCart, findParam, reduceTotalCount, reduceTotalPrice } from './utilsForSlice';
 
+import { getCartFromLS } from '../../../utils/getCartFromLS';
+import {
+	findItemForCart,
+	findParam,
+	reduceTotalCount,
+	reduceTotalPrice,
+} from '../../../utils/utilsForSlice';
+import { ICartSliceState, TCartItem } from './types';
+
+const cartData = getCartFromLS();
 const initialState: ICartSliceState = {
-	totalPrice: 0,
-	totalCount: 0,
-	items: [],
+	totalPrice: cartData.totalPrice,
+	totalCount: cartData.totalCount,
+	items: cartData.items,
 };
 
 export const cartSlice = createSlice({
@@ -18,31 +25,27 @@ export const cartSlice = createSlice({
 			if (findItem) {
 				if (findItem.count) findItem.count++;
 			} else state.items.push({ ...action.payload, count: 1 });
-			state.totalPrice = reduceTotalPrice(state);
-			state.totalCount = reduceTotalCount(state);
+			state.totalPrice = reduceTotalPrice(state.items);
+			state.totalCount = reduceTotalCount(state.items);
 		},
 		minusItem: (state, action: PayloadAction<TCartItem>) => {
 			const findItem = findItemForCart(state, action);
 			if (findItem && findItem.count && findItem.count > 1) findItem.count--;
-			state.totalPrice = reduceTotalPrice(state);
-			state.totalCount = reduceTotalCount(state);
+			state.totalPrice = reduceTotalPrice(state.items);
+			state.totalCount = reduceTotalCount(state.items);
 		},
 		removeItem: (state, action: PayloadAction<TCartItem>) => {
 			state.items = state.items.filter((obj) => !findParam(obj, action));
-			state.totalPrice = reduceTotalPrice(state);
-			state.totalCount = reduceTotalCount(state);
+			state.totalPrice = reduceTotalPrice(state.items);
+			state.totalCount = reduceTotalCount(state.items);
 		},
 		clearItem: (state) => {
-			state.items = initialState.items;
-			state.totalPrice = initialState.totalPrice;
-			state.totalCount = initialState.totalCount;
+			state.items = [];
+			state.totalPrice = 0;
+			state.totalCount = 0;
 		},
 	},
 });
-
-export const cartSelector = (state: RootState) => state.cart;
-export const cartSelectorByID = (id: string) => (state: RootState) =>
-	state.cart.items.find((obj) => obj.id === id);
 
 export const { addItem, removeItem, clearItem, minusItem } = cartSlice.actions;
 

@@ -1,25 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
-import { cartSelector } from '../redux/slices/cartSlice';
+import { cartSelector } from '../redux/slices/cart/selector';
 
+import { useEffect, useRef } from 'react';
 import logoSvg from '../assets/img/pizza-logo.svg';
-import { resetToInitialState } from '../redux/slices/filterSlice';
+import { resetToInitialState } from '../redux/slices/filter/slice';
 import Search from './Search';
 
-export default function Headers() {
-	const { totalCount, totalPrice } = useSelector(cartSelector);
+const Header = () => {
+	const { totalCount, totalPrice, items } = useSelector(cartSelector);
 	const dispatch = useDispatch();
 	const location = useLocation();
 
-	const onClickReset = () => {
-		dispatch(resetToInitialState());
-	};
+	const isMounted = useRef(false);
+	useEffect(() => {
+		if (isMounted.current) {
+			const state = JSON.stringify(items);
+			localStorage.setItem('cart', state);
+		}
+		isMounted.current = true;
+	});
 
 	return (
 		<div className="header">
 			<div className="container">
-				<Link to="/" onClick={onClickReset}>
+				<Link
+					to="/"
+					onClick={() => {
+						dispatch(resetToInitialState());
+					}}>
 					<div className="header__logo">
 						<img width="38" src={logoSvg} alt="Pizza logo" />
 						<div>
@@ -71,4 +81,6 @@ export default function Headers() {
 			</div>
 		</div>
 	);
-}
+};
+
+export default Header;

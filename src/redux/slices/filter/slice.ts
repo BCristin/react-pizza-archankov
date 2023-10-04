@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IFilterSliceState, TSearchPizzaParams, TSort } from '../../@types/types';
+import { IFilterSliceState, TSearchPizzaParams, TSort } from './types';
 
 export const initialState: IFilterSliceState = {
 	categoryId: '0',

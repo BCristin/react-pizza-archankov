@@ -3,15 +3,15 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { TSearchPizzaParams } from '../@types/types';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { sortCatergories } from '../components/Sort';
-import { setFilters, setQueryParameters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
-import { RootState } from '../redux/store';
+import { setFilters, setQueryParameters } from '../redux/slices/filter/slice';
+import { TSearchPizzaParams } from '../redux/slices/filter/types';
+import { fetchPizzas } from '../redux/slices/pizza/asyncActions';
+import { RootState, useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
 	const { categoryId, sortValue, currentPage, queryParameters, searchValue } = useSelector(
@@ -19,6 +19,7 @@ const Home: React.FC = () => {
 	);
 	const { pizzas, status } = useSelector((state: RootState) => state.pizza);
 	const dispatch = useDispatch();
+	const dispatchApp = useAppDispatch();
 
 	const navigate = useNavigate();
 	const isSearch = useRef(false);
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
 
 	const urlDB = new URL('https://6512c399b8c6ce52b3962a52.mockapi.io/pizzas');
 	if (categoryId !== '0') urlDB.searchParams.append('category', categoryId.toString());
+
 	urlDB.searchParams.append('sortBy', sortValue.sortProperty);
 	urlDB.searchParams.append('order', sortValue.order);
 	urlDB.searchParams.append('search', searchValue);
@@ -46,11 +48,7 @@ const Home: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!isSearch.current)
-			dispatch(
-				//@ts-ignore
-				fetchPizzas({ urlDB, currentPage }),
-			);
+		if (!isSearch.current) dispatchApp(fetchPizzas({ urlDB, currentPage }));
 
 		isSearch.current = false;
 		window.scrollTo(0, 0); // eslint-disable-next-line
