@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { FC, memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TSort } from '../@types/types';
 import { setActiveSort } from '../redux/slices/filterSlice';
@@ -12,8 +12,7 @@ export const sortCatergories: TSort[] = [
 	{ name: 'алфавиту asc', sortProperty: 'title', order: 'asc' },
 	{ name: 'алфавиту desc', sortProperty: 'title', order: 'desc' },
 ];
-
-export default function Sort() {
+const Sort: FC = memo(() => {
 	const activeSort = useSelector((state: RootState) => state.filter.sortValue);
 	const dispatch = useDispatch();
 
@@ -70,4 +69,6 @@ export default function Sort() {
 			)}
 		</div>
 	);
-}
+});
+
+export default Sort;

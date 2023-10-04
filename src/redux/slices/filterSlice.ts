@@ -34,6 +34,13 @@ export const filterSlice = createSlice({
 			state.currentPage = +action.payload.currentPage;
 			state.sortValue = action.payload.sortValue;
 		},
+		resetToInitialState: (state) => {
+			state.categoryId = initialState.categoryId;
+			state.currentPage = initialState.currentPage;
+			state.sortValue = initialState.sortValue;
+			state.queryParameters = initialState.queryParameters;
+			state.searchValue = initialState.searchValue;
+		},
 	},
 });
 
@@ -44,6 +51,7 @@ export const {
 	setSearchValue,
 	setQueryParameters,
 	setFilters,
+	resetToInitialState,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

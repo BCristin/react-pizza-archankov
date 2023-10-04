@@ -2,14 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
 import { cartSelector } from '../redux/slices/cartSlice';
-import {
-	initialState,
-	setActiveCategory,
-	setActiveSort,
-	setQueryParameters,
-} from '../redux/slices/filterSlice';
 
 import logoSvg from '../assets/img/pizza-logo.svg';
+import { resetToInitialState } from '../redux/slices/filterSlice';
 import Search from './Search';
 
 export default function Headers() {
@@ -18,9 +13,7 @@ export default function Headers() {
 	const location = useLocation();
 
 	const onClickReset = () => {
-		dispatch(setActiveCategory(initialState.categoryId));
-		dispatch(setActiveSort(initialState.sortValue));
-		dispatch(setQueryParameters(false));
+		dispatch(resetToInitialState());
 	};
 
 	return (

@@ -27,7 +27,8 @@ const CartItem: React.FC<TCartItem> = ({ id, title, price, imageUrl, size, type,
 				</p>
 			</div>
 			<div className="cart__item-count">
-				<div
+				<button
+					disabled={count === 1}
 					onClick={onClickMinus}
 					className="button button--outline button--circle cart__item-count-minus">
 					<svg
@@ -45,7 +46,7 @@ const CartItem: React.FC<TCartItem> = ({ id, title, price, imageUrl, size, type,
 							fill="#EB5A1E"
 						/>
 					</svg>
-				</div>
+				</button>
 				<b>{count}</b>
 				<div
 					onClick={onClickPlus}
