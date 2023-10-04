@@ -1,27 +1,18 @@
 import { useDispatch } from 'react-redux';
+import { TCartItem } from '../@types/types';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
-type ICartItemProps = {
-	id: string;
-	title: string;
-	type: string;
-	size: number;
-	price: number;
-	count: number;
-	imageUrl: string;
-};
-
-const CartItem: React.FC<ICartItemProps> = ({ id, title, type, size, price, count, imageUrl }) => {
+const CartItem: React.FC<TCartItem> = ({ id, title, price, imageUrl, size, type, count }) => {
 	const dispatch = useDispatch();
 	const onClickPlus = () => {
-		dispatch(addItem({ id, type, size }));
+		dispatch(addItem({ id, type, size } as TCartItem));
 	};
 	const onClickMinus = () => {
-		dispatch(minusItem({ id, type, size }));
+		dispatch(minusItem({ id, type, size } as TCartItem));
 	};
 	const onClickRemove = () => {
 		if (window.confirm('Esti sigur ca vrei sa scoti din cos produsul ?')) {
-			dispatch(removeItem({ id, type, size }));
+			dispatch(removeItem({ id, type, size } as TCartItem));
 		}
 	};
 	return (

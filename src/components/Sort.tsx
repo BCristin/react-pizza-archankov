@@ -1,14 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TSort } from '../@types/types';
 import { setActiveSort } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
-type SortItem = {
-	name: string;
-	sortProperty: string;
-	order: 'asc' | 'desc';
-};
-
-export const sortCatergories: SortItem[] = [
+export const sortCatergories: TSort[] = [
 	{ name: 'популярности asc', sortProperty: 'rating', order: 'asc' },
 	{ name: 'популярности desc', sortProperty: 'rating', order: 'desc' },
 	{ name: 'цене asc', sortProperty: 'price', order: 'asc' },
@@ -18,13 +14,13 @@ export const sortCatergories: SortItem[] = [
 ];
 
 export default function Sort() {
-	const activeSort = useSelector((state: any) => state.filter.sortValue);
+	const activeSort = useSelector((state: RootState) => state.filter.sortValue);
 	const dispatch = useDispatch();
 
 	const [open, setOpen] = useState(false);
 	const sortRef = useRef<HTMLDivElement>(null);
 
-	function onClickListItem(categori: SortItem) {
+	function onClickListItem(categori: TSort) {
 		dispatch(setActiveSort(categori));
 		setOpen(false);
 	}

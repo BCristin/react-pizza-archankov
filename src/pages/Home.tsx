@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { TSearchPizzaParams } from '../@types/types';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
@@ -10,12 +11,13 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { sortCatergories } from '../components/Sort';
 import { setFilters, setQueryParameters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { RootState } from '../redux/store';
 
 const Home: React.FC = () => {
 	const { categoryId, sortValue, currentPage, queryParameters, searchValue } = useSelector(
-		(state: any) => state.filter,
+		(state: RootState) => state.filter,
 	);
-	const { pizzas, status } = useSelector((state: any) => state.pizza);
+	const { pizzas, status } = useSelector((state: RootState) => state.pizza);
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
@@ -23,19 +25,22 @@ const Home: React.FC = () => {
 	// const queryParameters = useRef(false);
 
 	const urlDB = new URL('https://6512c399b8c6ce52b3962a52.mockapi.io/pizzas');
-	if (categoryId !== 0) urlDB.searchParams.append('category', categoryId);
+	if (categoryId !== '0') urlDB.searchParams.append('category', categoryId.toString());
 	urlDB.searchParams.append('sortBy', sortValue.sortProperty);
 	urlDB.searchParams.append('order', sortValue.order);
 	urlDB.searchParams.append('search', searchValue);
 
 	useEffect(() => {
 		if (window.location.search) {
-			const params = qs.parse(window.location.search.substring(1));
+			const params = qs.parse(window.location.search.substring(1)) as unknown as TSearchPizzaParams;
 			const sort = sortCatergories.find(
 				(category) =>
 					category.sortProperty === params.sortProperty && category.order === params.order,
 			);
-			dispatch(setFilters({ ...params, sort }));
+			if (sort) {
+				dispatch(setFilters({ ...params, sortValue: sort }));
+			}
+
 			isSearch.current = true; // spun ca exista search
 		} // eslint-disable-next-line
 	}, []);

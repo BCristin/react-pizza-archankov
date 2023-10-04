@@ -1,11 +1,12 @@
 import ReactPaginate from 'react-paginate';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../redux/slices/filterSlice';
+import { RootState } from '../../redux/store';
 import styles from './Pagination.module.scss';
 
 const Pagination = () => {
-	const { currentPage } = useSelector((state: any) => state.filter);
-	const { nrPizza } = useSelector((state: any) => state.pizza);
+	const { currentPage } = useSelector((state: RootState) => state.filter);
+	const { nrPizza } = useSelector((state: RootState) => state.pizza);
 
 	const nrPages = Math.ceil(nrPizza / 4);
 	const dispatch = useDispatch();
