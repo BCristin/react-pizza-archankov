@@ -1,4 +1,4 @@
-import { TCartItem } from '../redux/slices/cart/types';
+import { TCartItem } from '../redux/cart/types';
 import { reduceTotalCount, reduceTotalPrice } from './utilsForSlice';
 
 export const getCartFromLS = () => {

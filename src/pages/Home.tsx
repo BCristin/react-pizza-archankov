@@ -3,14 +3,11 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import Categories from '../components/Categories';
-import Pagination from '../components/Pagination';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton';
-import Sort, { sortCatergories } from '../components/Sort';
+import { Categories, Pagination, PizzaBlock, Skeleton, Sort } from '../components';
+import { sortCatergories } from '../components/Sort';
+import { fetchPizzas } from '../redux/pizza/asyncActions';
 import { setFilters, setQueryParameters } from '../redux/slices/filter/slice';
 import { TSearchPizzaParams } from '../redux/slices/filter/types';
-import { fetchPizzas } from '../redux/slices/pizza/asyncActions';
 import { RootState, useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {

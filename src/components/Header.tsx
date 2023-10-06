@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
-import { cartSelector } from '../redux/slices/cart/selector';
+import { cartSelector } from '../redux/cart/selector';
 
 import { useEffect, useRef } from 'react';
 import logoSvg from '../assets/img/pizza-logo.svg';
 import { resetToInitialState } from '../redux/slices/filter/slice';
-import Search from './Search';
+import { Search } from './';
 
-const Header = () => {
+export const Header = () => {
 	const { totalCount, totalPrice, items } = useSelector(cartSelector);
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -82,5 +82,3 @@ const Header = () => {
 		</div>
 	);
 };
-
-export default Header;

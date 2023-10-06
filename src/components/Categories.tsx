@@ -11,7 +11,7 @@ const defaultCategories: string[] = [
 	'Острые',
 	'Закрытые',
 ];
-const Categories: FC = memo(() => {
+export const Categories: FC = memo(() => {
 	const activeIndex = useSelector((state: RootState) => state.filter.categoryId);
 	const dispatch = useDispatch();
 
@@ -30,5 +30,3 @@ const Categories: FC = memo(() => {
 		</div>
 	);
 });
-
-export default Categories;

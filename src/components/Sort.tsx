@@ -13,7 +13,7 @@ export const sortCatergories: TSort[] = [
 	{ name: 'алфавиту asc', sortProperty: 'title', order: 'asc' },
 	{ name: 'алфавиту desc', sortProperty: 'title', order: 'desc' },
 ];
-const Sort: FC = memo(() => {
+export const Sort: FC = memo(() => {
 	const activeSort = useSelector((state: RootState) => state.filter.sortValue);
 	const dispatch = useDispatch();
 
@@ -71,5 +71,3 @@ const Sort: FC = memo(() => {
 		</div>
 	);
 });
-
-export default Sort;

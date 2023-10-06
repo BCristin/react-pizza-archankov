@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { ICartSliceState, TCartItem } from '../redux/slices/cart/types';
+import { ICartSliceState, TCartItem } from '../redux/cart/types';
 
 export const findParam = (obj: TCartItem, action: PayloadAction<TCartItem>): boolean =>
 	obj.id === action.payload.id &&

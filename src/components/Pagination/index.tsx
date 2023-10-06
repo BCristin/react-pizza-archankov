@@ -4,7 +4,7 @@ import { setCurrentPage } from '../../redux/slices/filter/slice';
 import { RootState } from '../../redux/store';
 import styles from './Pagination.module.scss';
 
-const Pagination = () => {
+export const Pagination = () => {
 	const { currentPage } = useSelector((state: RootState) => state.filter);
 	const { nrPizza } = useSelector((state: RootState) => state.pizza);
 
@@ -26,4 +26,3 @@ const Pagination = () => {
 		/>
 	);
 };
-export default Pagination;

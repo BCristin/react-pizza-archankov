@@ -2,7 +2,7 @@ type ButtonProps = {
 	onClickAdd: () => void;
 	count: number;
 };
-const Button: React.FC<ButtonProps> = ({ onClickAdd, count }) => {
+export const Button: React.FC<ButtonProps> = ({ onClickAdd, count }) => {
 	return (
 		<button onClick={() => onClickAdd()} className="button button--outline button--add">
 			<svg
@@ -21,4 +21,3 @@ const Button: React.FC<ButtonProps> = ({ onClickAdd, count }) => {
 		</button>
 	);
 };
-export default Button;
