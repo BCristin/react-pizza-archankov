@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { Categories, Pagination, PizzaBlock, Skeleton, Sort } from '../components';
 import { sortCatergories } from '../components/Sort';
+import { setFilters, setQueryParameters } from '../redux/filter/slice';
+import { TSearchPizzaParams } from '../redux/filter/types';
 import { fetchPizzas } from '../redux/pizza/asyncActions';
-import { setFilters, setQueryParameters } from '../redux/slices/filter/slice';
-import { TSearchPizzaParams } from '../redux/slices/filter/types';
 import { RootState, useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {

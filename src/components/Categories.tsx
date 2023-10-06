@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveCategory } from '../redux/slices/filter/slice';
+import { setActiveCategory } from '../redux/filter/slice';
 import { RootState } from '../redux/store';
 
 const defaultCategories: string[] = [

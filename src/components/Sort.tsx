@@ -1,8 +1,8 @@
 import { FC, memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveSort } from '../redux/slices/filter/slice';
+import { setActiveSort } from '../redux/filter/slice';
 
-import { TSort } from '../redux/slices/filter/types';
+import { TSort } from '../redux/filter/types';
 import { RootState } from '../redux/store';
 
 export const sortCatergories: TSort[] = [

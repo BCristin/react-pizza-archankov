@@ -5,7 +5,7 @@ import { cartSelector } from '../redux/cart/selector';
 
 import { useEffect, useRef } from 'react';
 import logoSvg from '../assets/img/pizza-logo.svg';
-import { resetToInitialState } from '../redux/slices/filter/slice';
+import { resetToInitialState } from '../redux/filter/slice';
 import { Search } from './';
 
 export const Header = () => {
